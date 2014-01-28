@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Counters</string>
+    <string name="action_settings">Settings</string>
+    <string name="button_add">Add</string>
+    <string name="button_minus">Minus</string>
+    <string name="button_othercounter">Other Counters</string>
+    <string name="button_stats">Stats</string>
+    <string name="title_activity_display_other_counters">DisplayOtherCounters</string>
+    <string name="title_activity_display_stats">DisplayStats</string>
+    <string name="new_counter">New Counter</string>
+    <string name="title_activity_new_counter">New Counter</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="button_delete">Delete Counter</string>
+
+</resources>
