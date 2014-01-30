@@ -17,5 +17,7 @@
     <string name="edit_message">Counter name</string>
     <string name="add_counter">Create</string>
     <string name="numbody">numbody</string>
+    <string name="Order">Order</string>
+    
 
 </resources>

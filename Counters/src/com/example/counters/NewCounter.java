@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -19,6 +20,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,33 +33,55 @@ public class NewCounter extends Activity {
 	private Counters count;
 	private TextView cview; 
 	public static final String FILENAME = "file.sav";
+	private boolean exists; 
+	public ArrayList<Counters> list_counters; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		count = new Counters();
-		
+		exists = false;
+		list_counters = loadFromFile();
 		Intent intent = getIntent();
         String message = intent.getStringExtra(NewcounternameActivity.EXTRA_MESSAGE);
-		setContentView(R.layout.activity_new_counter);
-		
-		cview = (TextView) findViewById(R.id.numbody);
+        setContentView(R.layout.activity_new_counter);
+        cview = (TextView) findViewById(R.id.numbody);
 		TextView nameview = (TextView) findViewById(R.id.body);
 		nameview.setTextSize(50);
-		nameview.setText(message);
-		
-		count.setText(message);
-		
-		//Log.d("Debug", ((TextView) findViewById(R.id.numbody)).toString());
 		cview.setTextSize(50);
-		cview.setText(String.valueOf(count.getCount()));
 		// Show the Up button in the action bar.
 		setupActionBar();
-		SaveInFile(count);
+		
+		Log.d("TEST", "hello");
+			
+		for(int i = 0; i < list_counters.size(); ++i){
+
+			if((list_counters.get(i)).getText().equals(message)){
+				Log.d("TEST", "gets in if");
+				nameview.setText((list_counters.get(i)).getText());
+				cview.setText(String.valueOf((list_counters.get(i)).getCount()));
+				count = list_counters.get(i);
+				exists = true;
+			}
+		}
+		
+		if(!exists){
+			count = new Counters();
+			nameview.setText(message);
+			count.setText(message);
+			cview.setText(String.valueOf(count.getCount()));
+			
+		}
+        
 		
 		
 	}
 	
+
+    protected void onStop(){
+    	super.onStop();
+    	SaveInFile(count);
+    }
+
+    
 
 	/**
 	 * Set up the {@link android.app.ActionBar}, if the API is available.
@@ -96,8 +120,9 @@ public class NewCounter extends Activity {
 	/** Called when the user clicks the Send button*/ 
 	public void add(View view) {
 		count.increment();
-		cview.setTextSize(50);
 		cview.setText(String.valueOf(count.getCount()));
+		
+		
 		
 	}
 	
@@ -151,7 +176,7 @@ public class NewCounter extends Activity {
 	}
 	
 	
-	public String serialize(Counters counter){
+	public static String serialize(Counters counter){
 		Gson new_item = new Gson();
 		String item = new_item.toJson(counter);
 		return item;

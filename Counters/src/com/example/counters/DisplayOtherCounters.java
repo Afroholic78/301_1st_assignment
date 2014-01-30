@@ -3,16 +3,19 @@ package com.example.counters;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import android.annotation.TargetApi;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,13 +23,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class DisplayOtherCounters extends ListActivity {
-
+	public final static String EXTRA_MESSAGE = "com.example.counters.MESSAGE";
 	private ListView oldCounterList;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		final ArrayList<Counters> count = loadFromFile();
+		final ArrayList<Counters> count = loadFromFile();	
 		setListAdapter(new ArrayAdapter<Counters>(this,
                 android.R.layout.simple_list_item_1, count));
 		//setContentView(R.layout.activity_display_other_counters);
@@ -42,8 +46,11 @@ public class DisplayOtherCounters extends ListActivity {
 		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
 		try{
+		final ArrayList<Counters> count = loadFromFile();
+		Counters current = count.get(position);
 		Class ourClass = Class.forName("com.example.counters.NewCounter");
 		Intent ourIntent = new Intent(this, ourClass);
+		ourIntent.putExtra(EXTRA_MESSAGE, current.getText());
 		startActivity(ourIntent);
 		}catch (ClassNotFoundException e){
 			e.printStackTrace();
@@ -51,6 +58,17 @@ public class DisplayOtherCounters extends ListActivity {
 		
 	}
 
+	//TODO implement sorting
+	public void Order(View view) {
+	    // Do something in response to Order counters button
+		final ArrayList<Counters> count = loadFromFile();
+		
+		for(int i = 0; i < count.size(); ++i){
+			
+			count.get(i).getCount();
+		}
+		
+	}
 
 	protected void onStart(){
 		super.onStart();
@@ -113,6 +131,18 @@ public class DisplayOtherCounters extends ListActivity {
     }
     return counters;
 		}
+	
+	public void SaveInFile(Counters counter){
+		try{
+			FileOutputStream fos = openFileOutput(NewCounter.FILENAME, Context.MODE_APPEND);
+			fos.write((NewCounter.serialize(counter) + "\n").getBytes());
+			fos.close();
+		} catch (FileNotFoundException e){
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 
 }
