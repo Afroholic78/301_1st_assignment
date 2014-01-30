@@ -1,16 +1,25 @@
 package com.example.counters;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class DisplayOtherCounters extends Activity {
 
+	private ListView oldCounterList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -18,7 +27,18 @@ public class DisplayOtherCounters extends Activity {
 		// Show the Up button in the action bar.
 		setupActionBar();
 		
+		oldCounterList = (ListView) findViewById(R.id.othercounters);
 		
+		
+	}
+	
+	protected void onStart(){
+		super.onStart();
+		
+		final ArrayList<Counters> count = loadFromFile();
+        final ArrayAdapter<Counters> adapter = new ArrayAdapter<Counters>(this,
+                        R.layout.counter_list_item, count);
+        oldCounterList.setAdapter(adapter);
 	}
 
 	/**
@@ -54,5 +74,29 @@ public class DisplayOtherCounters extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	private ArrayList<Counters> loadFromFile(){
+		ArrayList<Counters> counters = new ArrayList<Counters>();
+		try{
+			FileInputStream fis = openFileInput(NewCounter.FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            String line = in.readLine();      
+                    
+            while (line != null) {
+            		Counters counter = NewCounter.deserialize(line);
+                    counters.add(counter);
+                    line = in.readLine();
+            }
+
+    } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+    } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+    }
+    return counters;
+		}
+	
 
 }

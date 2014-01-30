@@ -6,8 +6,18 @@ public class Counters {
 
 	private String text;
 	private int count;
-	private Date timestamp;
+	private long first_timestamp;
+	private long current_timestamp;
 	
+	
+	public Counters() {
+		super();
+		this.count = 0;
+		this.first_timestamp = System.currentTimeMillis();
+	}
+	public String toString(){
+		return text;
+	}
 	public String getText() {
 		return text;
 	}
@@ -20,12 +30,26 @@ public class Counters {
 	public void setCount(int count) {
 		this.count = count;
 	}
-	public Date getTimestamp() {
-		return timestamp;
+	public long getTimestamp() {
+		return first_timestamp;
 	}
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
+	public long getCurrent_timestamp() {
+		return current_timestamp;
 	}
+	public void setCurrent_timestamp(){
+		this.current_timestamp = System.currentTimeMillis();
+	}
+	
+	public void increment(){
+		this.count += 1;
+		
+	}
+	
+	public void reset(){
+		this.count = 0;
+		
+	}
+	
 	
 	
 }

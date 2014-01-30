@@ -6,17 +6,19 @@
     android:orientation="vertical"
      >
     
-     <EditText
+     <TextView
          android:id="@+id/body"
          android:layout_width="match_parent"
-         android:layout_height="130dp" />
+         android:layout_height="130dp"
+         android:gravity="center"
+         />
     
     <TextView
+        android:id="@+id/numbody"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_weight="0.3"
-        
-         
+        android:gravity="center"
         />
    
     <Button
@@ -30,8 +32,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_minus" 
-        android:onClick="minus"
+        android:text="@string/button_reset" 
+        android:onClick="reset"
         />
     
     <Button

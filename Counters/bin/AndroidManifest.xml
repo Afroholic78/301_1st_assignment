@@ -46,6 +46,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.counters.MainActivity" />
         </activity>
+        <activity
+            android:name="com.example.counters.NewcounternameActivity"
+            android:label="@string/title_activity_newcountername" >
+        </activity>
     </application>
 
 </manifest>

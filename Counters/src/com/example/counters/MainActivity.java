@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
 	
 	public void new_counter(View view) {
 	    // Do something in response to new counter button
-		Intent intent = new Intent(this, NewCounter.class);
+		Intent intent = new Intent(this, NewcounternameActivity.class);
 		startActivity(intent);
 	}
 	
