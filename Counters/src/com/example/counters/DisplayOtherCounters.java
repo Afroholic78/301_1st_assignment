@@ -8,37 +8,53 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
+import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class DisplayOtherCounters extends Activity {
+public class DisplayOtherCounters extends ListActivity {
 
 	private ListView oldCounterList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_display_other_counters);
+		
+		final ArrayList<Counters> count = loadFromFile();
+		setListAdapter(new ArrayAdapter<Counters>(this,
+                android.R.layout.simple_list_item_1, count));
+		//setContentView(R.layout.activity_display_other_counters);
 		// Show the Up button in the action bar.
 		setupActionBar();
 		
-		oldCounterList = (ListView) findViewById(R.id.othercounters);
-		
-		
+		//oldCounterList = (ListView) findViewById(R.id.othercounters);
 	}
 	
+	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		super.onListItemClick(l, v, position, id);
+		try{
+		Class ourClass = Class.forName("com.example.counters.NewCounter");
+		Intent ourIntent = new Intent(this, ourClass);
+		startActivity(ourIntent);
+		}catch (ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+	}
+
+
 	protected void onStart(){
 		super.onStart();
-		
-		final ArrayList<Counters> count = loadFromFile();
-        final ArrayAdapter<Counters> adapter = new ArrayAdapter<Counters>(this,
-                        R.layout.counter_list_item, count);
-        oldCounterList.setAdapter(adapter);
+        
 	}
 
 	/**
