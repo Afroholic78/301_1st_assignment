@@ -56,9 +56,6 @@ public class MainActivity extends Activity {
 		startActivity(intent);
 	}
 	
-	public void delete(View view) {
-	    // Do something in response to delete counter button
-		
-	}
+
 
 }

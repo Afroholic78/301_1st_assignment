@@ -1,16 +1,13 @@
 package com.example.counters;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+
+
 
 import android.annotation.TargetApi;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,25 +16,47 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 public class DisplayOtherCounters extends ListActivity {
 	public final static String EXTRA_MESSAGE = "com.example.counters.MESSAGE";
 	private ListView oldCounterList;
+	private ArrayAdapter<Counters> adapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_display_other_counters);		
 		
-		ArrayList<Counters> count = CounterList.list_counters;	
-		setListAdapter(new ArrayAdapter<Counters>(this,
-                android.R.layout.simple_list_item_1, count));
-		//setContentView(R.layout.activity_display_other_counters);
+		Button orderButton = (Button) findViewById(R.id.order);
+		oldCounterList = (ListView) findViewById(android.R.id.list);
+		
+		orderButton.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+				setResult(RESULT_OK);
+
+				Order();
+			}
+		});
+
 		// Show the Up button in the action bar.
 		setupActionBar();
 		
-		//oldCounterList = (ListView) findViewById(R.id.othercounters);
+	}
+	
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		ArrayList<Counters> count = CounterList.list_counters;
+		adapter = new ArrayAdapter<Counters>(this,
+				android.R.layout.simple_list_item_1, count);
+		oldCounterList.setAdapter(adapter);
 	}
 	
 	
@@ -57,23 +76,46 @@ public class DisplayOtherCounters extends ListActivity {
 		}
 		
 	}
-
-	//TODO implement sorting
-	public void Order(View view) {
-	    // Do something in response to Order counters button
+	
+	
+	
+	public void Order() {
+	    
+		// Do something in response to Order counters button
 		final ArrayList<Counters> count = CounterList.list_counters;
-		
-		for(int i = 0; i < count.size(); ++i){
-			
-			count.get(i).getCount();
+		ArrayList<Counters> new_count = new ArrayList<Counters>();
+		ArrayList<Counters> new_count_copy = (ArrayList<Counters>) CounterList.list_counters.clone();
+		Counters count_max = new Counters();
+		//int max = -1;
+		int position = -2;
+		int len = count.size();
+		int len2 = new_count_copy.size();
+		Log.d("HERE", "gets in the order" );
+		for(int c = 0; c < len; c++){
+			Log.d("HERE", "c is " + c );
+			int max = -1;
+		for(int i = 0; i < len2; i++){
+			Log.d("HERE", "i is " + i );
+			if(max < new_count_copy.get(i).getCount()){
+				max = new_count_copy.get(i).getCount();
+				count_max = new_count_copy.get(i);
+				position = i;
+			}
+		}
+		new_count.add(count_max);
+		new_count_copy.remove(position);
+		--len2;
 		}
 		
+		CounterList.list_counters = new_count;
+		CounterList.SaveInFile(CounterList.list_counters, this);
+		
+		adapter = new ArrayAdapter<Counters>(this,
+				android.R.layout.simple_list_item_1, CounterList.list_counters);
+		oldCounterList.setAdapter(adapter);
 	}
 
-	protected void onStart(){
-		super.onStart();
-        
-	}
+
 
 	/**
 	 * Set up the {@link android.app.ActionBar}, if the API is available.

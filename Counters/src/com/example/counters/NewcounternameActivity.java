@@ -2,12 +2,14 @@ package com.example.counters;
 
 
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class NewcounternameActivity extends Activity {
 	public final static String EXTRA_MESSAGE = "com.example.counters.MESSAGE";
@@ -27,11 +29,21 @@ public class NewcounternameActivity extends Activity {
 	
 	public void sendcounter(View view) {
 	    // Do something in response to new counter button
-		Intent intent = new Intent(this, NewCounter.class);
 		EditText editText = (EditText) findViewById(R.id.edit_message);
 		String message = editText.getText().toString();
+		if(message == null || message.trim().equals("")){
+			Context context = getApplicationContext();
+			CharSequence text = "Input non-empty string!";
+			int duration = 1;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
+		}
+		else{
+		Intent intent = new Intent(this, NewCounter.class);
 		intent.putExtra(EXTRA_MESSAGE, message);
 		startActivity(intent);
+		}
 	}
 
 }

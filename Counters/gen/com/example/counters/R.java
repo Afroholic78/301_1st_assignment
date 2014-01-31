@@ -24,12 +24,13 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int Button02=0x7f080000;
-        public static final int action_settings=0x7f080005;
-        public static final int body=0x7f080002;
-        public static final int edit_message=0x7f080004;
-        public static final int numbody=0x7f080003;
-        public static final int stats=0x7f080001;
+        public static final int action_settings=0x7f080006;
+        public static final int body=0x7f080003;
+        public static final int edit_message=0x7f080005;
+        public static final int numbody=0x7f080004;
+        public static final int oldCounterList=0x7f080000;
+        public static final int order=0x7f080001;
+        public static final int stats=0x7f080002;
     }
     public static final class layout {
         public static final int activity_display_other_counters=0x7f030000;
@@ -37,7 +38,8 @@ public final class R {
         public static final int activity_main=0x7f030002;
         public static final int activity_new_counter=0x7f030003;
         public static final int counter_list_item=0x7f030004;
-        public static final int newcountername=0x7f030005;
+        public static final int list_item=0x7f030005;
+        public static final int newcountername=0x7f030006;
     }
     public static final class menu {
         public static final int display_other_counters=0x7f070000;
@@ -56,6 +58,7 @@ public final class R {
         public static final int button_othercounter=0x7f050004;
         public static final int button_reset=0x7f050003;
         public static final int button_stats=0x7f050005;
+        public static final int change_name=0x7f050011;
         public static final int edit_message=0x7f05000d;
         public static final int hello_world=0x7f05000a;
         public static final int new_counter=0x7f050008;

@@ -18,6 +18,7 @@
     <string name="add_counter">Create</string>
     <string name="numbody">numbody</string>
     <string name="Order">Order</string>
+    <string name="change_name">Change name</string>
     
 
 </resources>

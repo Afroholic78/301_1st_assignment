@@ -5,35 +5,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
      >
-<!--      
-     <EditText
-         android:id="@+id/body"
-         android:layout_width="match_parent"
-         android:layout_height="130dp" />
-    
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="0.3"
-        
-         
-        />
-   
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="0.3"
-        android:text="@string/button_add" 
-        android:onClick="add"
-        />
-    
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_minus" 
-        android:onClick="minus"
-        />
--->
+
 
     <Button
         android:layout_width="match_parent"
@@ -50,11 +22,6 @@
         android:text="@string/button_othercounter" 
         android:onClick="othercounter"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.3"
-        android:text="@string/button_stats"
-        android:onClick="stats" />
+
 
 </LinearLayout>
