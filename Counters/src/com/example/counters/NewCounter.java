@@ -34,12 +34,12 @@ public class NewCounter extends Activity {
 	private TextView cview; 
 	public static final String FILENAME = "file.sav";
 	private boolean exists; 
-	public ArrayList<Counters> list_counters; 
+	public ArrayList<Counters> list_counters2; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		exists = false;
-		list_counters = loadFromFile();
+		list_counters2 = CounterList.list_counters; 
 		Intent intent = getIntent();
         String message = intent.getStringExtra(NewcounternameActivity.EXTRA_MESSAGE);
         setContentView(R.layout.activity_new_counter);
@@ -52,13 +52,14 @@ public class NewCounter extends Activity {
 		
 		Log.d("TEST", "hello");
 			
-		for(int i = 0; i < list_counters.size(); ++i){
+		for(int i = 0; i < list_counters2.size(); ++i){
 
-			if((list_counters.get(i)).getText().equals(message)){
+			if((list_counters2.get(i)).getText().equals(message)){
 				Log.d("TEST", "gets in if");
-				nameview.setText((list_counters.get(i)).getText());
-				cview.setText(String.valueOf((list_counters.get(i)).getCount()));
-				count = list_counters.get(i);
+				nameview.setText((list_counters2.get(i)).getText());
+				cview.setText(String.valueOf((list_counters2.get(i)).getCount()));
+				count = list_counters2.get(i);
+				list_counters2.remove(i);
 				exists = true;
 			}
 		}
@@ -70,16 +71,16 @@ public class NewCounter extends Activity {
 			cview.setText(String.valueOf(count.getCount()));
 			
 		}
+		
+		list_counters2.add(count);
+    	CounterList.SaveInFile(list_counters2, this);
         
 		
 		
 	}
 	
 
-    protected void onStop(){
-    	super.onStop();
-    	SaveInFile(count);
-    }
+    
 
     
 
@@ -122,70 +123,35 @@ public class NewCounter extends Activity {
 		count.increment();
 		cview.setText(String.valueOf(count.getCount()));
 		
-		
+		CounterList.Already_exist_check(count);
+		list_counters2.add(count);
+		CounterList.SaveInFile(list_counters2, this);
 		
 	}
 	
 	public void reset(View view) {
 		
 		count.reset();
-		cview.setTextSize(50);
 		cview.setText(String.valueOf(count.getCount()));
 		
+		CounterList.Already_exist_check(count);
+		list_counters2.add(count);
+		CounterList.SaveInFile(list_counters2, this);
 	}
 	
 	
 	
 	public void delete(View view){
 		
+		for(int i = 0; i < list_counters2.size(); i++){
+			if((list_counters2.get(i)).getText().equals(count.getText())){
+				list_counters2.remove(i);
+			}
+		}
 		
-	}
-	private ArrayList<Counters> loadFromFile(){
-		ArrayList<Counters> counters = new ArrayList<Counters>();
-		try{
-			FileInputStream fis = openFileInput(FILENAME);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            String line = in.readLine();      
-                    
-            while (line != null) {
-            		Counters counter = deserialize(line);
-                    counters.add(counter);
-                    line = in.readLine();
-            }
-
-    } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-    } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-    }
-    return counters;
-		}
-	// TODO ADD THE SAVE TO SOMETHING... SAVE WHEN IT IS MODIFIED AFTER CHECK IF IT ALREADY EXISTS and update timestamps
-	public void SaveInFile(Counters counter){
-		try{
-			FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_APPEND);
-			fos.write((serialize(counter) + "\n").getBytes());
-			fos.close();
-		} catch (FileNotFoundException e){
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	public static String serialize(Counters counter){
-		Gson new_item = new Gson();
-		String item = new_item.toJson(counter);
-		return item;
-	}
-	
-	public static Counters deserialize(String retrieved_item){
-		Gson new_item = new Gson();
-		Counters counter_retrieved = new_item.fromJson(retrieved_item, Counters.class);
-		return counter_retrieved;
+		CounterList.SaveInFile(list_counters2, this);
+		NavUtils.navigateUpFromSameTask(this);
+		
 	}
 	
 	

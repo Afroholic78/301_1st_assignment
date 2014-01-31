@@ -30,7 +30,7 @@ public class DisplayOtherCounters extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		final ArrayList<Counters> count = loadFromFile();	
+		ArrayList<Counters> count = CounterList.list_counters;	
 		setListAdapter(new ArrayAdapter<Counters>(this,
                 android.R.layout.simple_list_item_1, count));
 		//setContentView(R.layout.activity_display_other_counters);
@@ -46,7 +46,7 @@ public class DisplayOtherCounters extends ListActivity {
 		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
 		try{
-		final ArrayList<Counters> count = loadFromFile();
+		final ArrayList<Counters> count = CounterList.list_counters;
 		Counters current = count.get(position);
 		Class ourClass = Class.forName("com.example.counters.NewCounter");
 		Intent ourIntent = new Intent(this, ourClass);
@@ -61,7 +61,7 @@ public class DisplayOtherCounters extends ListActivity {
 	//TODO implement sorting
 	public void Order(View view) {
 	    // Do something in response to Order counters button
-		final ArrayList<Counters> count = loadFromFile();
+		final ArrayList<Counters> count = CounterList.list_counters;
 		
 		for(int i = 0; i < count.size(); ++i){
 			
@@ -109,40 +109,8 @@ public class DisplayOtherCounters extends ListActivity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	private ArrayList<Counters> loadFromFile(){
-		ArrayList<Counters> counters = new ArrayList<Counters>();
-		try{
-			FileInputStream fis = openFileInput(NewCounter.FILENAME);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            String line = in.readLine();      
-                    
-            while (line != null) {
-            		Counters counter = NewCounter.deserialize(line);
-                    counters.add(counter);
-                    line = in.readLine();
-            }
 
-    } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-    } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-    }
-    return counters;
-		}
 	
-	public void SaveInFile(Counters counter){
-		try{
-			FileOutputStream fos = openFileOutput(NewCounter.FILENAME, Context.MODE_APPEND);
-			fos.write((NewCounter.serialize(counter) + "\n").getBytes());
-			fos.close();
-		} catch (FileNotFoundException e){
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
 
 }
