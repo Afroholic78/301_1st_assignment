@@ -23,7 +23,7 @@ public class DisplayStats extends Activity {
 	private ListView statList;
 	private ArrayAdapter<String> adapter;
 	private Counters cur_count;
-
+	//
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

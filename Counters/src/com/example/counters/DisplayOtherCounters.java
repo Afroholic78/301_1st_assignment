@@ -23,10 +23,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 public class DisplayOtherCounters extends ListActivity {
+	//EXTRA_MESSAGE is used to pass a string from one activity to another
 	public final static String EXTRA_MESSAGE = "com.example.counters.MESSAGE";
 	private ListView oldCounterList;
 	private ArrayAdapter<Counters> adapter;
 	
+	//Set the button and list layouts on Create, if the order button is clicked call the order function
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,10 +50,10 @@ public class DisplayOtherCounters extends ListActivity {
 		setupActionBar();
 		
 	}
-	
+	//Set the list to project the list of counters
 	@Override
 	protected void onStart() {
-		// TODO Auto-generated method stub
+		
 		super.onStart();
 		ArrayList<Counters> count = CounterList.list_counters;
 		adapter = new ArrayAdapter<Counters>(this,
@@ -59,10 +61,11 @@ public class DisplayOtherCounters extends ListActivity {
 		oldCounterList.setAdapter(adapter);
 	}
 	
-	
+	//Set a listener to wait for a click on a list item and then associate it with a counter name and pass the name to the next activity
+	//in this case NewCounter
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		// TODO Auto-generated method stub
+		
 		super.onListItemClick(l, v, position, id);
 		try{
 		final ArrayList<Counters> count = CounterList.list_counters;
@@ -78,7 +81,8 @@ public class DisplayOtherCounters extends ListActivity {
 	}
 	
 	
-	
+	//Order is based on selection sort. Finds the highest count and appends it to an empty list and do so for each element (runtime n^2)
+	// once it is all sorted make the list of counters equal to the sorted list, reset the listview display to match the sorted list and save it to memory 
 	public void Order() {
 	    
 		// Do something in response to Order counters button
@@ -86,16 +90,16 @@ public class DisplayOtherCounters extends ListActivity {
 		ArrayList<Counters> new_count = new ArrayList<Counters>();
 		ArrayList<Counters> new_count_copy = (ArrayList<Counters>) CounterList.list_counters.clone();
 		Counters count_max = new Counters();
-		//int max = -1;
+		
 		int position = -2;
 		int len = count.size();
 		int len2 = new_count_copy.size();
-		Log.d("HERE", "gets in the order" );
+		
 		for(int c = 0; c < len; c++){
-			Log.d("HERE", "c is " + c );
+		
 			int max = -1;
 		for(int i = 0; i < len2; i++){
-			Log.d("HERE", "i is " + i );
+		
 			if(max < new_count_copy.get(i).getCount()){
 				max = new_count_copy.get(i).getCount();
 				count_max = new_count_copy.get(i);

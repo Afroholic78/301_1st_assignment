@@ -23,7 +23,7 @@ public class CounterList {
 		list_counters = loadFromFile(mainactivity);
 	}
 	
-	
+	//Load the list of counters into an ArrayList<counters> named list_counters
 	private ArrayList<Counters> loadFromFile(Activity mainactivity){
 		ArrayList<Counters> counters = new ArrayList<Counters>();
 		try{
@@ -47,12 +47,13 @@ public class CounterList {
 	return counters;
 		}
 	
+	//Deserialize for loading
 	private static Counters deserialize(String retrieved_item){
 		Gson new_item = new Gson();
 		Counters counter_retrieved = new_item.fromJson(retrieved_item, Counters.class);
 		return counter_retrieved;
 	}
-	
+	//Save the array list to FILENAME
 	public static void SaveInFile(ArrayList<Counters> counter, Activity newcounteractivity){
 		try{
 			FileOutputStream fos = newcounteractivity.openFileOutput(FILENAME, Context.MODE_PRIVATE);
@@ -70,13 +71,13 @@ public class CounterList {
 		}
 	}
 	
-	
+	//Serialize for saving purposes
 	private static String serialize(Counters counter){
 		Gson new_item = new Gson();
 		String item = new_item.toJson(counter);
 		return item;
 	}
-	
+	//Check if a certain counter exists within the list if it does delete it since it will be re-added later
 	public static void Already_exist_check(Counters counter){
 		for(int i = 0; i < list_counters.size(); i++){
 			if((list_counters.get(i)).getText().equals(counter.getText())){
