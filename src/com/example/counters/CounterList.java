@@ -53,7 +53,7 @@ public class CounterList {
 		Counters counter_retrieved = new_item.fromJson(retrieved_item, Counters.class);
 		return counter_retrieved;
 	}
-	//Save the array list to FILENAME
+	//Save the array list to FILENAME when doing so over write everything
 	public static void SaveInFile(ArrayList<Counters> counter, Activity newcounteractivity){
 		try{
 			FileOutputStream fos = newcounteractivity.openFileOutput(FILENAME, Context.MODE_PRIVATE);

@@ -32,7 +32,12 @@ public class NewCounter extends Activity {
 	private Date date = new Date();
 	private Calendar calendar2 = GregorianCalendar.getInstance();
 	public final static String EXTRA_MESSAGE = "com.example.counters.MESSAGE";
-	 
+	
+	//setup the editview(for possible name edits) and the text view (for count number)
+	//set the sizes for comfortable reading and display
+	//if the counter has been seen before load its previous values
+	//if not make a new counter with new values
+	//either way once done save to the array list and save it to file, overwritting the previous list
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -117,12 +122,16 @@ public class NewCounter extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	//when clicking add, increment the counter, update the count showed, check if the counter is one that is already in the counter list
+	//if it is delete it, re-add it then save the list to file
+	//if not just add it then save list to file
 	/** Called when the user clicks the Send button*/ 
 	public void add(View view) {
 		calendar2.setTime(date);
 		count.increment();
 		cview.setText(String.valueOf(count.getCount()));
 		
+		//when incrementing make a note to each time frame stat list and call the function to add it
 		count.setHours((Integer.toString(calendar2.get(Calendar.MONTH) +1 )) + "/" + (Integer.toString(calendar2.get(Calendar.DAY_OF_MONTH))) + " " +(Integer.toString(calendar2.get(Calendar.HOUR_OF_DAY)))  );
 		count.setMonth(Integer.toString(calendar2.get(Calendar.MONTH) +1 ));
 		count.setWeek(Integer.toString(calendar2.get(Calendar.WEEK_OF_MONTH)));
@@ -134,7 +143,9 @@ public class NewCounter extends Activity {
 		CounterList.SaveInFile(list_counters2, this);
 		
 	}
-	
+	//when clicking reset, reset the counter, update the count showed, check if the counter is one that is already in the counter list
+		//if it is delete it, re-add it then save the list to file
+		//if not just add it then save list to file
 	public void reset(View view) {
 		
 		count.reset();
@@ -146,7 +157,8 @@ public class NewCounter extends Activity {
 	}
 	
 	
-	
+	//if delete is pressed just remove the counter using its name from the list then save the new list in file
+	//and return to the home screen
 	public void delete(View view){
 		
 		for(int i = 0; i < list_counters2.size(); i++){
@@ -159,7 +171,10 @@ public class NewCounter extends Activity {
 		NavUtils.navigateUpFromSameTask(this);
 		
 	}
-	
+	//if change name is pressed use already exist check to delete it from the list since we're sure the current counter already exists
+	//rename the counter
+	//add the counter to the list
+	//save list to file
 	public void change_name(View view){
 		EditText editText = (EditText) findViewById(R.id.body);
 		String message = editText.getText().toString();
@@ -169,7 +184,7 @@ public class NewCounter extends Activity {
 		CounterList.SaveInFile(list_counters2, this);
 		
 	}
-	
+	//if Stats is pressed go to the stats activity and pass it the counter name as an extra
 	public void stats(View view) {
 	    // Do something in response to stats button
 		EditText editText = (EditText) findViewById(R.id.body);
